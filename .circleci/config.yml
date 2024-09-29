@@ -31,19 +31,19 @@ jobs:
       - run:
           name: Push Artifacts
           command: |
-            scp -r ~/project/* $SSH_USER_FRONTEND@$SSH_HOST_FRONTEND:/home/ubuntu/frontend/stagging/
+            scp -r ~/project/* $SSH_USER@$SSH_HOST:/home/ubuntu/frontend/stagging/
       - run:
           name: Check Docker
           command: |
-            ssh $SSH_USER_FRONTEND@$SSH_HOST_FRONTEND 'docker --version'
+            ssh $SSH_USER@$SSH_HOST 'docker --version'
       - run:
           name: Deploy
           command: |
-            ssh $SSH_USER_FRONTEND@$SSH_HOST_FRONTEND 'cd ~/frontend/stagging/docker && docker compose build  &&  docker compose up -d && echo done'
+            ssh $SSH_USER@$SSH_HOST 'cd ~/frontend/stagging/docker && docker compose build  &&  docker compose up -d && echo done'
       - run:
           name: Clean Stagging Area
           command: |
-            ssh $SSH_USER_FRONTEND@$SSH_HOST_FRONTEND "cd ~/frontend/stagging && find . -type f ! -name '.env.local' -exec rm -r {} \; && ls -a && echo done"
+            ssh $SSH_USER@$SSH_HOST "cd ~/frontend/stagging && find . -type f ! -name '.env.local' -exec rm -r {} \; && ls -a && echo done"
 workflows:
   example_deployment_flow:
     jobs:
